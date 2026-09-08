@@ -14,9 +14,9 @@ from sqlmodel import select, delete
 BASE_URL = "http://localhost:8000"
 
 def verify_endpoints():
-    username = "verify_tester"
-    email = "verify@tester.io"
-    password = "tester_password"
+    username = "admin"
+    email = "admin@superhumanlydoctors.io"
+    password = "SovereignAdmin2026!"
     
     # 1. Provision Test Admin
     print("🚀 Provisioning Test Admin...")
