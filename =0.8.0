@@ -1,0 +1,11 @@
+Collecting resend
+  Using cached resend-2.43.0-py2.py3-none-any.whl.metadata (3.7 kB)
+Requirement already satisfied: requests>=2.31.0 in ./venv/lib/python3.14/site-packages (from resend) (2.34.2)
+Requirement already satisfied: typing_extensions>=4.4.0 in ./venv/lib/python3.14/site-packages (from resend) (4.16.0)
+Requirement already satisfied: charset_normalizer<4,>=2 in ./venv/lib/python3.14/site-packages (from requests>=2.31.0->resend) (3.5.1)
+Requirement already satisfied: idna<4,>=2.5 in ./venv/lib/python3.14/site-packages (from requests>=2.31.0->resend) (3.19)
+Requirement already satisfied: urllib3<3,>=1.26 in ./venv/lib/python3.14/site-packages (from requests>=2.31.0->resend) (2.7.0)
+Requirement already satisfied: certifi>=2023.5.7 in ./venv/lib/python3.14/site-packages (from requests>=2.31.0->resend) (2026.7.22)
+Downloading resend-2.43.0-py2.py3-none-any.whl (92 kB)
+Installing collected packages: resend
+Successfully installed resend-2.43.0

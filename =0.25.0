@@ -1,0 +1,12 @@
+Collecting uvicorn
+  Using cached uvicorn-0.52.4-py3-none-any.whl.metadata (6.6 kB)
+Collecting click>=7.0 (from uvicorn)
+  Using cached click-8.5.0-py3-none-any.whl.metadata (2.6 kB)
+Collecting h11>=0.8 (from uvicorn)
+  Using cached h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+Downloading uvicorn-0.52.4-py3-none-any.whl (79 kB)
+Downloading click-8.5.0-py3-none-any.whl (125 kB)
+Using cached h11-0.16.0-py3-none-any.whl (37 kB)
+Installing collected packages: h11, click, uvicorn
+
+Successfully installed click-8.5.0 h11-0.16.0 uvicorn-0.52.4

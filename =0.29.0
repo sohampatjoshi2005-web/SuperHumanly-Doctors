@@ -1,0 +1,5 @@
+Collecting asyncpg
+  Using cached asyncpg-0.31.0-cp314-cp314-macosx_10_15_x86_64.whl.metadata (4.4 kB)
+Downloading asyncpg-0.31.0-cp314-cp314-macosx_10_15_x86_64.whl (660 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 660.9/660.9 kB 2.3 MB/s  0:00:00
+Installing collected packages: asyncpg
