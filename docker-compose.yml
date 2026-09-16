@@ -1,0 +1,97 @@
+services:
+  db:
+    image: postgres:16
+    container_name: superhumanly-db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: superhumanly_doctors
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d superhumanly_doctors"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: superhumanly-redis
+    restart: always
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: .
+    container_name: superhumanly-backend
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://postgres:postgres@db:5432/superhumanly_doctors
+      - REDIS_URL=redis://redis:6379/0
+      - CORS_ALLOW_ORIGINS=http://localhost:5173,http://localhost,http://127.0.0.1
+    command: gunicorn app.main:app -w 4 -k uvicorn.workers.UvicornWorker -b 0.0.0.0:8000 --timeout 120 --max-requests 1000 --max-requests-jitter 50
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+      - superhumanly_tmp:/tmp/superhumanly
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+
+  worker:
+    build: .
+    container_name: superhumanly-worker
+    command: celery -A app.core.celery.celery_app worker --loglevel=info
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://postgres:postgres@db:5432/superhumanly_doctors
+      - REDIS_URL=redis://redis:6379/0
+    volumes:
+      - .:/app
+      - superhumanly_tmp:/tmp/superhumanly
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      disable: true
+
+  frontend:
+    build:
+      context: ../healthcare-frontend
+      args:
+        - VITE_API_BASE_URL=
+        - VITE_SITE_URL=http://localhost
+    container_name: superhumanly-frontend
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
+  superhumanly_tmp:
